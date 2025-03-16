@@ -1,5 +1,5 @@
 # airforcegame
-
+```python
     import pygame
     import random
    
@@ -209,3 +209,4 @@
 
       pygame.quit()
       exit(0) 
+```
