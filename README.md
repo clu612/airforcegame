@@ -1,51 +1,50 @@
 # airforcegame
-#step 9 draw text for score, life and game over
+code: 
 import pygame
 import random
    
-# 1.2 - Initialize the game 
+
 pygame.init()
-pygame.mixer.init()  # for audio 
+pygame.mixer.init() 
 
 width, height = 740, 480
 screen=pygame.display.set_mode((width, height))
 keep_going = True
 
-#step 9
+
 score=0
 life=3
 game_over=False
 
-#3.1 initial the value of Key and position
+
 key_up=key_down=key_left=key_right = False
 player_pos=[130,100] #change the position to list
 
-# 1.3 - Load images
+
 player = pygame.image.load("pythonproject elements/player.png")
 
-#2.1 load more images
+
 background = pygame.image.load("pythonproject elements/sky.jpg")
 background = pygame.transform.scale(background, (width, height))
 cargo = pygame.image.load("pythonproject elements/airballoon.png")
 
-#4 bullets
+
 bullets=[]
 bullet = pygame.image.load("pythonproject elements/bullet.png")
 
-#5 enemy
+
 enemyImg = pygame.image.load("pythonproject elements/enemy1.png")
 enemyImg=pygame.transform.scale(enemyImg, (75, 75)).convert_alpha()  #use the convert_alpha() method after loading so that the image has per pixel transparency.
 enemys=[[640,100]]
 enemySpeed=-0.3
 enemyMaxnumber=5
 
-#7 initial load explosion animaton images
 explosions=[] # store explosion location and img index [(x,y),i,t] 
 explosion_anim=[] #store img for animation
 BLACK = (0, 0, 0)
 explosion_time=60
 
-#9 define function for draw text
+
 WHITE = (255,255, 255)
 
 def draw_text(surf, text, size, x, y):
@@ -58,31 +57,25 @@ def draw_text(surf, text, size, x, y):
 
 for i in range(9):
     filename = 'Explosion0{}.png'.format(i)
-    img = pygame.image.load("pythonproject elements/"+ filename).convert()  # convert will create a copy that will draw more quickly on the screen.
+    img = pygame.image.load("pythonproject elements/"+ filename).convert()
     img.set_colorkey(BLACK)
     img= pygame.transform.scale(img, (75, 75))
     explosion_anim.append(img)
     
-#8 load sound
 shooting_sound = pygame.mixer.Sound('pythonproject elements/pew.wav')
 pygame.mixer.music.load('pythonproject elements/BG.ogg')
-pygame.mixer.music.play(-1) ## makes the gameplay sound in an endless loop
+pygame.mixer.music.play(-1)
 
-# 1.4 - use loop to keep the game running 
 while keep_going:
             
-    # 1.5 - clear the screen before drawing it again
+   
     screen.fill(0)
     
-    #2.2 load the background
+
     screen.blit(background,(0,0))
    
-    # if you image is small, you need use double loop to fill the background
-    #for x in range( int(width/background.get_width())+1):
-    #    for y in range(int(height/background.get_height())+1):
-    #        screen.blit(background,(x*100,y*100))
     
-    # 2.3 load the cargo
+  
     screen.blit(cargo,(0,30))
     screen.blit(cargo,(0,135))
     screen.blit(cargo,(0,240))
@@ -90,19 +83,19 @@ while keep_going:
     
     #1.6 - draw the screen elements
     
-#step 9 draw life and score on    
+
     game_over=life<1 #step9 make game over if life small then 1
     draw_text(screen, "Score: "+str(score), 18, width -100, 10)
     draw_text(screen, "Life: "+str(life), 18, width/2, 10)
     if(game_over):
         draw_text(screen, "Game Over", 50, width/2, height/2 -40)
         
-#3.2 set player position use player_pos
+
 
     if(not game_over):
         screen.blit(player, player_pos)
     
-#4 - Draw bullet
+
     enemy_index=0
     for bulletPos in bullets:
         
@@ -114,7 +107,7 @@ while keep_going:
             bullets.pop(enemy_index)  #remove from list
         enemy_index+=1
   
- #5 Draw enemy 
+
     if(random.randint(1,100)<3 and len(enemys)<enemyMaxnumber):
         #screen.blit(enemy, badguy)
         enemys.append([640, random.randint(50,430)])
@@ -155,12 +148,11 @@ while keep_going:
                 explosions.append([player_pos,0,explosion_time])
                 enemys.pop(enemy_index)
                 life-=1
-        #end step 9
-                    
+     
         enemy_index+=1     
-    # end step 6
+  
 
-    #step 7 plan explosion animation    
+
     for explosion in explosions:
         if(explosion[1]<9):
             screen.blit(explosion_anim[explosion[1]],explosion[0])
@@ -171,17 +163,17 @@ while keep_going:
                 
         else:
             explosions.pop(0) # the first one is always first completed         
-#end step 5
+
 
      
-    #1.7 - update the screen
+
     pygame.display.flip() #faster the .update()
-    # 1.8 - loop through the events
+ 
     for event in pygame.event.get():
         # check if the event is the X button
         if event.type==pygame.QUIT:
             keep_going = False
-    #3.3 monitor the key down and up
+
         if event.type == pygame.KEYDOWN:
             if event.key==pygame.K_w:
                 key_up=True
@@ -200,14 +192,13 @@ while keep_going:
                 key_down=False
             elif event.key==pygame.K_d:
                 key_right=False
-# use mouse down to fire   
+
         if(not game_over):      
             if event.type==pygame.MOUSEBUTTONDOWN or (event.type==pygame.KEYDOWN and event.key==pygame.K_SPACE):
                 bullets.append([player_pos[0],player_pos[1]])
                 shooting_sound.play()      # step 8 play the sound when shooting
     if(not game_over):           
-        #3.4 - Move player base on the key status
-        if key_up and player_pos[1]>0:
+      if key_up and player_pos[1]>0:
             player_pos[1]-=1
         elif key_down and player_pos[1]<height-30:
             player_pos[1]+=1
@@ -216,6 +207,6 @@ while keep_going:
         elif key_right and player_pos[0]<width-100:
             player_pos[0]+=1
 
-#1.9 exit pygame and python
-pygame.quit()
-exit(0) 
+
+      pygame.quit()
+      exit(0) 
