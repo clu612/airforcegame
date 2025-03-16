@@ -1,72 +1,71 @@
 # airforcegame
-code: 
-import pygame
-import random
+
+    import pygame
+    import random
    
 
-pygame.init()
-pygame.mixer.init() 
+    pygame.init()
+    pygame.mixer.init() 
 
-width, height = 740, 480
-screen=pygame.display.set_mode((width, height))
-keep_going = True
-
-
-score=0
-life=3
-game_over=False
+    width, height = 740, 480
+    screen=pygame.display.set_mode((width, height))
+    keep_going = True
 
 
-key_up=key_down=key_left=key_right = False
-player_pos=[130,100] #change the position to list
+    score=0
+    life=3
+    game_over=False
 
 
-player = pygame.image.load("pythonproject elements/player.png")
+    key_up=key_down=key_left=key_right = False
+    player_pos=[130,100] #change the position to list
 
 
-background = pygame.image.load("pythonproject elements/sky.jpg")
-background = pygame.transform.scale(background, (width, height))
-cargo = pygame.image.load("pythonproject elements/airballoon.png")
+    player = pygame.image.load("pythonproject elements/player.png")
 
 
-bullets=[]
-bullet = pygame.image.load("pythonproject elements/bullet.png")
+    background = pygame.image.load("pythonproject elements/sky.jpg")
+    background = pygame.transform.scale(background, (width, height))
+    cargo = pygame.image.load("pythonproject elements/airballoon.png")
 
 
-enemyImg = pygame.image.load("pythonproject elements/enemy1.png")
-enemyImg=pygame.transform.scale(enemyImg, (75, 75)).convert_alpha()  #use the convert_alpha() method after loading so that the image has per pixel transparency.
-enemys=[[640,100]]
-enemySpeed=-0.3
-enemyMaxnumber=5
-
-explosions=[] # store explosion location and img index [(x,y),i,t] 
-explosion_anim=[] #store img for animation
-BLACK = (0, 0, 0)
-explosion_time=60
+    bullets=[]
+    bullet = pygame.image.load("pythonproject elements/bullet.png")
 
 
-WHITE = (255,255, 255)
+    enemyImg = pygame.image.load("pythonproject elements/enemy1.png")
+    enemyImg=pygame.transform.scale(enemyImg, (75, 75)).convert_alpha()  #use the convert_alpha() method after loading so that the image has per pixel transparency.
+    enemys=[[640,100]]
+    enemySpeed=-0.3
+    enemyMaxnumber=5
 
-def draw_text(surf, text, size, x, y):
-    ## selecting a cross platform font to display the score
+    explosions=[] # store explosion location and img index [(x,y),i,t] 
+    explosion_anim=[] #store img for animation
+    BLACK = (0, 0, 0)
+    explosion_time=60
+
+
+    WHITE = (255,255, 255)
+
+    def draw_text(surf, text, size, x, y):
     font = pygame.font.Font(pygame.font.match_font('arial'), size)
     text_surface = font.render(text, True, BLACK)       ## True denotes the font to be anti-aliased 
     text_rect = text_surface.get_rect()
     text_rect.midtop = (x, y)
     surf.blit(text_surface, text_rect)
 
-for i in range(9):
-    filename = 'Explosion0{}.png'.format(i)
-    img = pygame.image.load("pythonproject elements/"+ filename).convert()
-    img.set_colorkey(BLACK)
-    img= pygame.transform.scale(img, (75, 75))
-    explosion_anim.append(img)
+    for i in range(9):
+        filename = 'Explosion0{}.png'.format(i)
+        img = pygame.image.load("pythonproject elements/"+ filename).convert()
+        img.set_colorkey(BLACK)
+        img= pygame.transform.scale(img, (75, 75))
+        explosion_anim.append(img)
     
-shooting_sound = pygame.mixer.Sound('pythonproject elements/pew.wav')
-pygame.mixer.music.load('pythonproject elements/BG.ogg')
-pygame.mixer.music.play(-1)
+    shooting_sound = pygame.mixer.Sound('pythonproject elements/pew.wav')
+    pygame.mixer.music.load('pythonproject elements/BG.ogg')
+    pygame.mixer.music.play(-1)
 
-while keep_going:
+    while keep_going:
             
    
     screen.fill(0)
